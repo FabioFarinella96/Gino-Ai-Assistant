@@ -2,9 +2,10 @@ import * as pdfjsLib from 'pdfjs-dist/build/pdf';
 (pdfjsLib as any).GlobalWorkerOptions.workerSrc = '/assets/pdfjs/pdf.worker.min.js';
 import { LucideAngularModule, Brain, Blend, NotebookPen, SquareTerminal } from 'lucide-angular';
 
-import { Component, signal, ChangeDetectionStrategy, model } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy, model, OnInit } from '@angular/core';
 import { AiService } from '../../services/ai.service';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-ai-study-assistant',
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['../gino-ai-study-assistant/ai-study-assistant.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AiStudyAssistantComponent {
+export class AiStudyAssistantComponent implements OnInit {
   userText = model('');
   selectedMode = model<'explain-like-10' | 'summarize' | 'quiz'>('explain-like-10');
   aiResponse = signal<string>('');
@@ -29,6 +30,10 @@ export class AiStudyAssistantComponent {
   readonly squareTerminal = SquareTerminal;
 
   constructor(private aiService: AiService) {}
+
+  ngOnInit(): void {
+    console.log('environment in uso: ', environment);
+  }
 
   async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
