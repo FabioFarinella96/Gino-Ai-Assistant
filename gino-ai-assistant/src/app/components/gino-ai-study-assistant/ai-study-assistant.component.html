@@ -1,0 +1,104 @@
+<div class="assistant-container">
+  <div class="header">
+    <div class="icon-wrapper">
+      <lucide-icon [img]="brain" [size]="40" [color]="'white'"></lucide-icon>
+    </div>
+    <h2>Gino</h2>
+    <p class="subtitle">Il tuo assistente personale</p>
+  </div>
+
+  <div class="mode-selector">
+    <div class="box-mode">
+      <lucide-icon [img]="blend" [size]="22"></lucide-icon>
+      <label for="mode">Modalità di assistenza</label>
+    </div>
+    <div class="select-wrapper">
+      <select id="mode" [(ngModel)]="selectedMode">
+        <option value="explain-like-10">Spiega in modo semplice</option>
+        <option value="summarize">Riassumi i concetti chiave</option>
+        <option value="quiz">Crea domande di ripasso</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="upload-section">
+    <label class="file-upload">
+      <input type="file" accept=".pdf" (change)="onFileSelected($event)" />
+      <span class="upload-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        Carica PDF
+      </span>
+      @if(pdfFile()) {
+      <span class="file-name">{{ pdfFile()!.name }}</span>
+      }
+    </label>
+  </div>
+
+  <div class="text-input-section">
+    <div class="box-text-input">
+      <lucide-icon [img]="notebookPen" [size]="22"></lucide-icon>
+      <label for="userText">Oppure inserisci il testo manualmente</label>
+    </div>
+    <textarea
+      id="userText"
+      [(ngModel)]="userText"
+      placeholder="Incolla qui il testo da studiare..."
+      rows="8"
+    ></textarea>
+  </div>
+
+  @if(alertMsg()) {
+  <div>
+    <p style="color: red">Inserisci un testo o carica un PDF prima di procedere</p>
+  </div>
+  }
+
+  <button class="submit-btn" (click)="sendToAI()" [disabled]="loading()">
+    @if(loading()) {
+    <span class="spinner"></span>
+    <span>Elaborazione in corso...</span>
+    } @else {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M22 2L11 13"></path>
+      <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+    </svg>
+    <span>Analizza con AI</span>
+    }
+  </button>
+
+  @if(aiResponse()) {
+  <div class="response-box">
+    <div class="response-header">
+      <lucide-icon [img]="squareTerminal" [size]="22"></lucide-icon>
+      <h3>Risultato</h3>
+    </div>
+    <div class="response-content">
+      <p>{{ aiResponse() }}</p>
+    </div>
+  </div>
+  }
+</div>

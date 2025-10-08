@@ -1,0 +1,12 @@
+{
+  "name": "gino-project",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm start --prefix gino-ai-assistant\" \"npm run dev --prefix backend-gino\"",
+    "start:gino-ai-assistant": "npm start --prefix gino-ai-assistant",
+    "start:backend-gino": "npm run dev --prefix backend-gino"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
